@@ -1,0 +1,58 @@
+#--------------------------------------------------
+# Répertoire : /
+#--------------------------------------------------
+
+# Le serveur doit suivre les liens symboliques :
+Options +FollowSymlinks
+
+# Activation du module de réécriture d'URL :
+RewriteEngine on
+#--------------------------------------------------
+# ROUTES
+#--------------------------------------------------
+
+# ROUTE PAR DEFAUT: LIST DES POSTS  
+# PATTERN: /
+# URL: index.php?post=index
+# TITLE: Alex Parker - Home
+
+# ROUTE DETAILS D'UN POST
+# PATTERN: /posts/{id}/{slug}.html
+# URL: index.php?post=show&postID=$1&postTitle=$2
+RewriteRule ^posts\/([1-9][0-9]*)\/([a-z0-9][a-z0-9A-Z\-]*)\.html$ index.php?post=show&postID=$1&postTitle=$2 [L]
+
+# ROUTE DE MODIFICATION D'UN POST: Edit
+# PATTERN: /posts/{id}/{slug}/edit/form.html
+# URL: index.php?post=editPost&postID=$1
+RewriteRule ^posts\/([1-9][0-9]*)\/([a-z0-9][a-z0-9A-Z\-]*)\/edit\/form\.html$ index.php?post=editPost&postID=$1 [L]
+
+# ROUTE DE MODIFICATION D'UN POST: Update
+# PATTERN: /posts/{id}/{slug}/edit/update.html
+# URL: index.php?post=updatePost&postID=$1
+RewriteRule ^posts\/([1-9][0-9]*)\/([a-z0-9][a-z0-9A-Z\-]*)\/edit\/update\.html$ index.php?post=updatePost&postID=$1 [L]
+
+# ROUTE D'AJOUT D'UN POST : affichage du formulaire
+# PATTERN: /posts/add/form.html
+# URL: index.php?post=addPost
+RewriteRule ^posts\/add\/form\.html$ index.php?post=addPost [L]
+
+# ROUTE D'AJOUT D'UN POST: INSERT
+# PATTERN: /posts/add/insert.html
+# URL: index.php?post=insertPost
+RewriteRule ^posts\/add\/insert\.html$ index.php?post=insertPost [L]
+
+# ROUTE DE SUPPRESSION D'UN POST: Delete
+# PATTERN: /posts/{id}/{slug}/delete.html
+# CTRL: index.php?post=deletePost&postID=$1
+RewriteRule ^posts\/([1-9][0-9]*)\/([a-z0-9][a-z0-9A-Z\-]*)\/delete\.html$ index.php?post=deletePost&postID=$1 [L]
+
+# ROUTE DU DETAILS DES POSTS PAR CATEGORIE
+# PATTERN: /categories/{id}/name.html
+# URL: index.php?category=catList&categoryID=$1&categoryTitle=$2
+RewriteRule ^categories\/([1-9][0-9]*)\/([a-z0-9][a-z0-9A-Z\-]*)\.html$ index.php?category=catList&categoryID=$1&categoryTitle=$2 [L]
+
+
+# --------------------------------------------------
+RewriteCond %{REQUEST_URI} !\.(js|jpg|gif|zip|png|pdf|eot|ico|svg|ttf|css|woff|woff2)$ [NC]
+RewriteRule ^index.html$ index.php?post=index [L]
+RewriteRule ^$ index.php?post=index [L]
